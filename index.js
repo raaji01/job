@@ -2,7 +2,7 @@ const express = require("express");
 const multer = require('multer');
 const cors = require('cors');
 const fs = require('fs');
-
+const path = require('path');
 var app = express();
 app.use(cors()); // Allows incoming requests from any IP
 
@@ -30,9 +30,13 @@ const storage = multer.diskStorage({
     }
 });
 
+
 app.get("/download-file", (req, res) => {
-    res.download("./docs/RAAJALAKSHUMI_K_oncampas.pdf");
+    res.download("./public/docs/RAAJALAKSHUMI_K_oncampas.pdf");
 });
+
+
+
 
 // Set saved storage options:
 const upload = multer({ storage: storage });
