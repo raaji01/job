@@ -15,7 +15,8 @@ let uploadedFiles = [];
 // Start by creating some disk storage options:
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
-        callback(null, __dirname + '/uploads');
+        const uploadPath = path.join(__dirname, '/uploads');
+        callback(null, uploadPath);
     },
     filename: function (req, file, callback) {
         const filename = file.originalname;
@@ -32,7 +33,8 @@ const storage = multer.diskStorage({
 
 
 app.get("/download-file", (req, res) => {
-    res.download("./public/docs/RAAJALAKSHUMI_K_oncampas.pdf");
+    const filePath = path.join(__dirname, 'docs', 'RAAJALAKSHUMI_K_oncampas.pdf');
+    res.download(filePath);
 });
 
 
