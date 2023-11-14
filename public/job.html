@@ -26,29 +26,25 @@
 
         /* Style for the main container */
         .container {
+    width: 100%;
+    height: 100vh; /* Use 100vh for full height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-            width: 100%;
+/* Style for the form */
+form {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 2vw; /* Adjust padding as needed */
+    width: 80%; /* Adjust the width as needed */
+    max-width: 600px;
+    max-height: 80vh; /* Adjust the max-height as needed */
+    border-radius: 10px;
+}
 
-            height: 90vh;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Style for the form */
-        form {
-
-            background: #fff;
-            display: flex;
-            flex-direction: column;
-            padding: 2vw 3vw;
-            width: 60%;
-            max-width: 600px;
-            max-height: 800px;
-            border-radius: 10px;
-        }
 
         /* Style for form header (h3) */
         form h3 {
