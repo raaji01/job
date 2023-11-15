@@ -137,10 +137,10 @@
                     // Display the list of uploaded filenames
                     updateFileList(data.uploadedFiles);
                 })
-              //  .catch(error => {
-                //    console.error('Error:', error);
-                  //  messageDiv.textContent = "File already exists";
-                //});
+                .catch(error => {
+                console.error('Error:', error);
+                  messageDiv.textContent = "error"+error;
+                });
         });
 
         // Function to fetch and display the list of uploaded filenames
@@ -151,10 +151,10 @@
                 .then(data => {
                     updateFileList(data.uploadedFiles);
                 })
-              //  .catch(error => {
-              //      console.error('Error:', error);
-               //     fileListDiv.textContent = "An error occurred while fetching uploaded files.";
-              //  });
+                .catch(error => {
+                    console.error('Error:', error);
+                    fileListDiv.textContent = "An error occurred while fetching uploaded files.";
+                });
         }
 
         // Function to update the file list in HTML
@@ -173,7 +173,7 @@
         // Function to delete a file
         function deleteFile(filename) {
             
-            fetch(`${serverURL}/delete-file/${filename}`, {
+            fetch('http://127.0.0.1:5000/delete-file/${filename}', {
                 method: 'DELETE',
             })
            
