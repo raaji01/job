@@ -1,85 +1,42 @@
-const express = require("express");
+const express = require('express');
 const multer = require('multer');
 const cors = require('cors');
-const fs = require('fs');
 const path = require('path');
-var app = express();
-app.use(cors()); // Allows incoming requests from any IP
 
-app.set("view engine", "ejs")
-app.use(express.static("public"));
-app.use('/uploads',express.static('uploads'));
+const app = express();
+const port = process.env.PORT || 3000;
 
-// Keep track of uploaded filenames
-let uploadedFiles = [];
+// Set up CORS middleware
+app.use(cors());
 
-// Start by creating some disk storage options:
+// Set up Multer storage configuration
 const storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        const uploadPath = path.join(__dirname, '/uploads');
-        callback(null, uploadPath);
-    },
-    filename: function (req, file, callback) {
-        const filename = file.originalname;
-
-        // Check if the file already exists
-        if (uploadedFiles.includes(filename)) {
-            callback(new Error("File already exists"), null);
-        } else {
-            uploadedFiles.push(filename); // Add filename to the list
-            callback(null, filename);
-        }
-    }
+  destination: function (req, file, cb) {
+    // Set the destination folder where files will be stored
+    cb(null, path.join(__dirname, '/uploads'));
+  },
+  filename: function (req, file, cb) {
+    // Set the file name to be the original name of the file
+    cb(null, file.originalname);
+  },
 });
 
-
-app.get("/download-file", (req, res) => {
-    const filePath = path.join(__dirname, 'docs', 'RAAJALAKSHUMI_K_oncampas.pdf');
-    res.download(filePath);
-});
-
-
-
-
-// Set saved storage options:
+// Create Multer instance with the configured storage
 const upload = multer({ storage: storage });
+
+// Set up a route for file uploads
+app.post('/upload', upload.array('files'), (req, res) => {
+  // 'files' should match the name attribute in your HTML form for file input
+
+  // Files are uploaded, you can perform additional actions here if needed
+  res.send('Files uploaded successfully!');
+});
+
+// Set up a simple route to serve an HTML form for testing
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.get("/uploaded-files", (req, res) => {
-    res.json({ uploadedFiles });
-});
-
-// Delete a file
-app.delete('/delete-file/:filename', (req, res) => {
-    const filenameToDelete = req.params.filename;
-    const filePath = __dirname + '/uploads/' + filenameToDelete;
-
-    // Check if the file exists
-    if (uploadedFiles.includes(filenameToDelete) && fs.existsSync(filePath)) {
-        // Delete the file
-        fs.unlinkSync(filePath);
-        // Remove the filename from the uploadedFiles array
-        uploadedFiles = uploadedFiles.filter(filename => filename !== filenameToDelete);
-        res.json({ message: "File deleted successfully" });
-    } else {
-        res.status(404).json({ message: "File not found or could not be deleted" });
-    }
-});
-
-app.post("/api", upload.array("files"), (req, res) => {
-    console.log(req.body); // Logs form body values
-    console.log(req.files); // Logs any files
-
-    // Check for errors during upload
-    if (req.fileValidationError) {
-        return res.status(400).json({ message: req.fileValidationError });
-    }
-
-    res.json({ message: "File(s) uploaded successfully", uploadedFiles });
-});
-
-app.listen(5000, function () {
-    console.log("Server running on port 5000");
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
