@@ -15,7 +15,7 @@ let uploadedFiles = [];
 // Start by creating some disk storage options:
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
-        const uploadPath = path.join(__dirname, 'public/uploads');
+        const uploadPath = path.join(__dirname, '/public/uploads');
         callback(null, uploadPath);
     },
     filename: function (req, file, callback) {
@@ -53,7 +53,7 @@ app.get("/uploaded-files", (req, res) => {
 // Delete a file
 app.delete('/delete-file/:filename', (req, res) => {
     const filenameToDelete = req.params.filename;
-    const filePath = __dirname + 'public/uploads/' + filenameToDelete;
+    const filePath = __dirname + '/public/uploads/' + filenameToDelete;
 
     // Check if the file exists
     if (uploadedFiles.includes(filenameToDelete) && fs.existsSync(filePath)) {

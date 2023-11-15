@@ -114,7 +114,7 @@
             }
 
             
-            fetch(`${serverURL}/api`, {
+            fetch('http://127.0.0.1:5000/api', {
                 method: 'POST',
                 body: formData,
             })
@@ -137,10 +137,10 @@
                     // Display the list of uploaded filenames
                     updateFileList(data.uploadedFiles);
                 })
-                .catch(error => {
-                    console.error('Error:', error);
-                    messageDiv.textContent = "File already exists";
-                });
+              //  .catch(error => {
+                //    console.error('Error:', error);
+                  //  messageDiv.textContent = "File already exists";
+                //});
         });
 
         // Function to fetch and display the list of uploaded filenames
