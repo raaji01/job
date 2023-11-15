@@ -142,7 +142,8 @@
 
         // Function to fetch and display the list of uploaded filenames
         function displayUploadedFiles() {
-            fetch('http://127.0.0.1:5000/uploaded-files')
+            const serverURL = window.location.origin;
+            fetch(`${serverURL}/uploaded-files`)
                 .then(res => res.json())
                 .then(data => {
                     updateFileList(data.uploadedFiles);
